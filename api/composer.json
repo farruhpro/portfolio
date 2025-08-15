@@ -1,0 +1,18 @@
+{
+  "name": "portfolio/api",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "slim/slim": "^4.12",
+    "slim/psr7": "^1.6",
+    "vlucas/phpdotenv": "^5.6",
+    "firebase/php-jwt": "^6.9",
+    "intervention/image": "^2.7",
+    "respect/validation": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
