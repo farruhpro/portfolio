@@ -1,0 +1,5 @@
+RewriteEngine On
+# Если это не существующий файл и не папка — всё на index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
