@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <base href="/portfolio/">
+  <title>Контакты</title>
+  <meta name="description" content="Связаться по проекту.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="index.html">Portfolio</a>
+  <nav>
+    <a href="projects/index.html">Проекты</a>
+    <a href="about/index.html">Обо мне</a>
+    <a class="active" href="contact/index.html">Контакты</a>
+  </nav>
+</header>
+
+<main class="section">
+  <h1>Связаться</h1>
+  <form id="contactForm" class="form">
+    <label>Имя<input name="name" required></label>
+    <label>Email<input type="email" name="email" required></label>
+    <label>Сообщение<textarea name="message" required></textarea></label>
+    <!-- honeypot -->
+    <input type="text" name="website" autocomplete="off" tabindex="-1" style="display:none">
+    <button class="btn" type="submit">Отправить</button>
+    <p id="status"></p>
+  </form>
+</main>
+
+<footer class="site-footer" id="siteFooter"></footer>
+
+<script defer src="assets/js/common.js"></script>
+<script defer src="assets/js/contact.js"></script>
+</body>
+</html>

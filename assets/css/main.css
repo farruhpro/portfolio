@@ -1,0 +1,62 @@
+:root{--bg:#0b0b0d;--fg:#f2f2f2;--muted:#a7a7b1;--acc:#47a3ff;--card:#131318;--line:#242433}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto}
+a{color:var(--fg);text-decoration:none}a:hover{color:var(--acc)}
+img,video{max-width:100%;height:auto;display:block}
+h1,h2,h3{margin:0 0 .5rem}
+.section{padding:48px 20px;max-width:1200px;margin:0 auto}
+.center{text-align:center}
+.btn{display:inline-block;background:var(--acc);color:#000;padding:10px 16px;border-radius:6px;font-weight:600}
+.btn.secondary{background:transparent;border:1px solid var(--acc);color:var(--acc)}
+.btn.outline{background:transparent;border:1px solid var(--line);color:var(--fg)}
+.site-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,11,13,.8);backdrop-filter:saturate(160%) blur(8px);z-index:10}
+.logo{font-weight:800;letter-spacing:.5px}
+.site-header nav a{margin-left:16px;opacity:.8}.site-header nav a.active,.site-header nav a:hover{opacity:1}
+.site-footer{padding:24px 20px;border-top:1px solid var(--line);opacity:.7;text-align:center}
+
+.hero{position:relative;height:70vh;min-height:420px;overflow:hidden;background:#000}
+.hero video{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(1.05)}
+.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.35))}
+.hero-overlay h1{font-size:clamp(28px,5vw,56px);text-align:center;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transform:translateY(8px);opacity:0;transition:all .45s cubic-bezier(.2,.8,.2,1)}
+.card.visible{opacity:1;transform:translateY(0)}
+.card .cover{aspect-ratio:16/10;background:#111;overflow:hidden}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover img{transform:scale(1.02)}
+.card .meta{padding:12px 14px;border-top:1px solid var(--line)}
+.card .meta h3{font-size:18px;margin:0 0 6px}
+.card .action{position:absolute;inset:auto 8px 8px auto;background:rgba(0,0,0,.55);padding:6px 10px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .3s}
+.card:hover .action{opacity:1}
+
+.filters{display:flex;gap:12px;margin:8px 0 20px}
+.filters input{padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);width:100%}
+
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.page{padding:8px 12px;border:1px solid var(--line);border-radius:8px}
+.page.active{background:var(--acc);color:#000;border-color:transparent}
+
+.meta{opacity:.8;margin:8px 0 20px}
+.meta b{opacity:1}
+.richtext p{margin:0 0 .8rem}
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:8px}
+.gallery .item{grid-column:span 6;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.gallery .item.video{grid-column:span 12}
+.back-link{display:inline-block;margin-bottom:10px;opacity:.85}
+.prevnext{display:flex;gap:10px;justify-content:space-between;margin-top:24px}
+
+.about{display:grid;grid-template-columns:280px 1fr;gap:20px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:8px 0;list-style:none}
+.tools li{background:var(--card);border:1px solid var(--line);padding:6px 10px;border-radius:8px}
+
+.form{display:grid;gap:12px;max-width:520px}
+.form input,.form textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+.form button{justify-self:start}
+
+.fadein{opacity:0;transform:translateY(14px);transition:all .6s cubic-bezier(.2,.8,.2,1)}
+.fadein.visible{opacity:1;transform:translateY(0)}
+
+@media (max-width:800px){
+  .about{grid-template-columns:1fr}
+  .gallery .item{grid-column:span 12}
+}

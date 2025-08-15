@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <base href="/portfolio/">
+  <title>Обо мне</title>
+  <meta name="description" content="3D-визуализатор, Unreal Engine, 3ds Max.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="index.html">Portfolio</a>
+  <nav>
+    <a href="projects/index.html">Проекты</a>
+    <a class="active" href="about/index.html">Обо мне</a>
+    <a href="contact/index.html">Контакты</a>
+  </nav>
+</header>
+
+<main class="section">
+  <h1>Обо мне</h1>
+  <div class="about">
+    <div class="about-media">
+      <img src="images/me.jpg" alt="Фото" loading="lazy">
+    </div>
+    <div class="about-text">
+      <p>Я занимаюсь архитектурной 3D-визуализацией, работаю с Unreal Engine и 3ds Max. Делаю реал-тайм сцены, рендеры и киношные ролики.</p>
+      <h3>Инструменты</h3>
+      <ul class="tools">
+        <li>Unreal Engine</li><li>3ds Max</li><li>V-Ray</li><li>Corona</li><li>DaVinci Resolve</li>
+      </ul>
+      <h3>Соцсети</h3>
+      <p id="socials"></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer" id="siteFooter"></footer>
+
+<script defer src="assets/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const s = await apiGet('/settings');
+  document.getElementById('siteFooter').textContent = s.footer_text || '';
+  const soc = s.socials || {};
+  const links = Object.entries(soc).map(([k,v])=>`<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join(' • ');
+  document.getElementById('socials').innerHTML = links;
+});
+</script>
+</body>
+</html>

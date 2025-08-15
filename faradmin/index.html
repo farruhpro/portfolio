@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <base href="/portfolio/">
+  <title>Админка — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- мгновенно скрываем интерфейс до входа -->
+  <style id="hideStyle">#appHeader,#app{display:none}</style>
+  <link rel="stylesheet" href="faradmin/assets/css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<!-- ЛОГИН -->
+<div id="login" class="login-card">
+  <h1>Вход</h1>
+  <form id="loginForm" autocomplete="off">
+    <label>Логин<input name="username" required value="admin"></label>
+    <label>Пароль<input type="password" name="password" required value="admin"></label>
+    <button class="btn" type="submit">Войти</button>
+    <p id="loginMsg" style="color:#ff8080"></p>
+  </form>
+</div>
+
+<!-- ПАНЕЛЬ (скрыта до входа) -->
+<header id="appHeader" class="app-header" hidden>
+  <div class="brand">Admin</div>
+  <nav id="topNav">
+    <button data-view="dash">Дашборд</button>
+    <button data-view="projects">Проекты</button>
+    <button data-view="media">Медиа</button>
+    <button data-view="settings">Настройки</button>
+    <button data-view="users">Пользователи</button>
+  </nav>
+  <div><button id="logoutBtn">Выйти</button></div>
+</header>
+
+<main id="app" class="app" hidden>
+  <section data-screen="dash" class="screen">
+    <h2>Посещаемость</h2>
+    <div class="cards">
+      <div class="card metric"><div class="kpi" id="k7">0</div><div class="cap">за 7 дней</div></div>
+      <div class="card metric"><div class="kpi" id="k30">0</div><div class="cap">за 30 дней</div></div>
+      <div class="card metric"><div class="kpi" id="k90">0</div><div class="cap">за 90 дней</div></div>
+    </div>
+    <canvas id="chart"></canvas>
+  </section>
+
+  <section data-screen="projects" class="screen hidden">
+    <div class="row between">
+      <h2>Проекты</h2><button id="newProjectBtn">+ Новый</button>
+    </div>
+    <div class="row"><input id="searchProject" placeholder="Поиск..."></div>
+    <div id="projectsTable" class="table"></div>
+  </section>
+
+  <section data-screen="media" class="screen hidden">
+    <h2>Медиа проекта</h2>
+    <div class="row">
+      <select id="mediaProject"></select>
+      <input type="file" id="mediaFiles" multiple>
+      <button id="uploadBtn">Загрузить</button>
+    </div>
+    <div id="mediaGrid" class="grid"></div>
+  </section>
+
+  <section data-screen="settings" class="screen hidden">
+    <h2>Настройки сайта</h2>
+    <form id="settingsForm" class="form">
+      <label>Заголовок в hero <input name="header_title"></label>
+      <label>Текст в футере <input name="footer_text"></label>
+      <label>Email <input name="email"></label>
+      <label>Телефон <input name="phone"></label>
+      <label>Hero видео (путь) <input name="hero_video_path" placeholder="movies/hero.mp4"></label>
+      <label>Hero постер (путь) <input name="hero_poster_path" placeholder="images/hero_poster.jpg"></label>
+      <label>Соцсети (JSON) <textarea name="socials" rows="5" placeholder='{"YouTube":"https://...","Instagram":"https://..."}'></textarea></label>
+      <button class="btn" type="submit">Сохранить</button>
+      <span id="settingsMsg"></span>
+    </form>
+  </section>
+
+  <section data-screen="users" class="screen hidden">
+    <h2>Пользователи</h2>
+    <div id="usersTable" class="table"></div>
+  </section>
+</main>
+
+<script>
+  // базовый путь API для подпапки /portfolio
+  const API_BASE = '/portfolio/api/public';
+</script>
+<script defer src="faradmin/assets/js/admin.js?v=2025-08-15-3"></script>
+
+<!-- Fallback: если по какой-то причине admin.js не подцепился — логин всё равно сработает -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const f = document.getElementById('loginForm');
+  const msg = document.getElementById('loginMsg');
+  if (!f) return;
+  if (f.dataset.wired) return; // не дважды
+  f.dataset.wired = '1';
+  f.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    try{
+      const fd = new FormData(f);
+      const body = {username: fd.get('username')||'', password: fd.get('password')||''};
+      const r = await fetch(API_BASE + '/auth/login', {
+        method:'POST', credentials:'include',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      const t = await r.text();
+      let data = {};
+      try{ data = JSON.parse(t); }catch(_){}
+      if (r.ok && data && data.ok){
+        // если admin.js загрузился — используем его экспорт; если нет — показываем панель вручную
+        if (window.__afterLogin) return window.__afterLogin(data);
+        // показать панель без зависимостей
+        document.getElementById('login').classList.add('hidden');
+        const h = document.getElementById('appHeader'), a = document.getElementById('app');
+        h.hidden = false; h.style.display = '';
+        a.hidden = false; a.style.display = '';
+      } else {
+        msg.textContent = (data && (data.error||data.message)) || 'Ошибка входа';
+      }
+    }catch(e){
+      msg.textContent = 'Сеть/скрипт: ' + e.message;
+    }
+  });
+});
+</script>
+</body>
+</html>
